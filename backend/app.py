@@ -1,5 +1,7 @@
 import logging
 
+from typing import Optional
+
 from flask import Flask
 
 from backend.common.errors import register_error_handlers
@@ -8,7 +10,7 @@ from backend.extensions import init_extensions, init_logging
 from backend.modules import register_blueprints
 
 
-def create_app(config_name: str | None = None) -> Flask:
+def create_app(config_name: Optional[str] = None) -> Flask:
     """Application factory."""
     app = Flask(__name__)
 

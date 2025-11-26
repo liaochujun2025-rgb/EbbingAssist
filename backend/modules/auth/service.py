@@ -30,8 +30,8 @@ def authenticate(email_or_phone: str, password: str) -> User:
 
 
 def issue_tokens(user: User) -> dict:
-    access_token = create_access_token(identity=user.id, fresh=True)
-    refresh_token = create_refresh_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id), fresh=True)
+    refresh_token = create_refresh_token(identity=str(user.id))
     return {"access": access_token, "refresh": refresh_token}
 
 

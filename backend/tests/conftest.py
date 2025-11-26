@@ -2,6 +2,10 @@ import pytest
 
 from backend.app import create_app
 from backend.extensions import db
+# ensure models are registered before create_all
+import backend.modules.plan.models  # noqa: F401
+import backend.modules.knowledge.models  # noqa: F401
+import backend.modules.study_log.models  # noqa: F401
 
 
 @pytest.fixture(scope="session")

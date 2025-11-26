@@ -1,9 +1,11 @@
 import os
 
+from typing import Optional
+
 from backend.config.settings import DevelopmentConfig, ProductionConfig, TestingConfig
 
 
-def get_config(config_name: str | None = None):
+def get_config(config_name: Optional[str] = None):
     env = config_name or os.getenv("APP_ENV") or os.getenv("FLASK_ENV") or "development"
     env = env.lower()
     mapping = {

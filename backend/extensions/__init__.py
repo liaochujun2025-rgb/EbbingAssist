@@ -7,10 +7,12 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from redis import Redis
+from typing import Optional
 
+jwt = JWTManager()
 db = SQLAlchemy()
 migrate = Migrate()
-redis_client: Redis | None = None
+redis_client: Optional[Redis] = None
 scheduler = BackgroundScheduler()
 jwt = JWTManager()
 

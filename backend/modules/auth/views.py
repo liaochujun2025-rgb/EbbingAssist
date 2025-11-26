@@ -11,7 +11,7 @@ from flask_jwt_extended import (
 )
 
 from backend.common.errors import AppError
-from backend.common.response import response_ok
+from backend.common.response import response_error, response_ok
 from backend.extensions import jwt
 from backend.modules.auth.models import TokenBlocklist, User
 from backend.modules.auth.service import (
@@ -62,8 +62,8 @@ def register():
     data = _parse_json(["email", "password"])
     user = create_user(email=data["email"], password=data["password"])
     tokens = {
-        "access": create_access_token(identity=user.id, fresh=True),
-        "refresh": create_refresh_token(identity=user.id),
+        "access": create_access_token(identity=str(user.id), fresh=True),
+        "refresh": create_refresh_token(identity=str(user.id)),
     }
     return response_ok({"user_id": user.id, "tokens": tokens}, "registered")
 
@@ -73,8 +73,8 @@ def login():
     data = _parse_json(["account", "password"])
     user = authenticate(data["account"], data["password"])
     tokens = {
-        "access": create_access_token(identity=user.id, fresh=True),
-        "refresh": create_refresh_token(identity=user.id),
+        "access": create_access_token(identity=str(user.id), fresh=True),
+        "refresh": create_refresh_token(identity=str(user.id)),
     }
     return response_ok({"user_id": user.id, "tokens": tokens}, "login_success")
 
@@ -86,7 +86,7 @@ def refresh():
     jti = get_jwt()["jti"]
     if is_token_revoked(jti):
         raise AppError(code=2003, message="token_revoked", status_code=401)
-    new_access = create_access_token(identity=identity, fresh=False)
+    new_access = create_access_token(identity=str(identity), fresh=False)
     return response_ok({"access": new_access}, "refreshed")
 
 
@@ -96,7 +96,7 @@ def logout():
     jwt_payload = get_jwt()
     jti = jwt_payload["jti"]
     token_type = jwt_payload["type"]
-    identity = jwt_payload["sub"]
+    identity = int(jwt_payload["sub"])
     expires = datetime.fromtimestamp(jwt_payload["exp"])
     revoke_token(jti=jti, token_type=token_type, user_id=identity, expires_at=expires)
     resp = response_ok(message="logged_out")

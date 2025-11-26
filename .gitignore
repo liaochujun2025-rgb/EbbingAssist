@@ -1,0 +1,13 @@
+# Python / Backend
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+backend/.venv/
+
+# Node / Frontend
+node_modules/
+dist/
+
+# Misc
+tmp_task.md

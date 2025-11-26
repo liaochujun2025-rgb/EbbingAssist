@@ -35,7 +35,7 @@ def _plan_to_dict(plan: Plan) -> dict:
 @plan_bp.post("/plans")
 @jwt_required()
 def create_plan_route():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     payload = request.get_json() or {}
     plan = create_plan(user_id, payload)
     return response_ok(_plan_to_dict(plan), "plan_created")
@@ -44,7 +44,7 @@ def create_plan_route():
 @plan_bp.get("/plans")
 @jwt_required()
 def list_plans_route():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     filters = {
         "status": request.args.get("status"),
         "priority": request.args.get("priority"),
@@ -60,7 +60,7 @@ def list_plans_route():
 @plan_bp.get("/plans/<int:plan_id>")
 @jwt_required()
 def plan_detail_route(plan_id: int):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     plan = get_plan_detail(user_id, plan_id)
     plan_dict = _plan_to_dict(plan)
     plan_dict["tasks"] = [t.as_dict() for t in plan.tasks]
@@ -70,7 +70,7 @@ def plan_detail_route(plan_id: int):
 @plan_bp.put("/plans/<int:plan_id>")
 @jwt_required()
 def update_plan_route(plan_id: int):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     payload = request.get_json() or {}
     plan = update_plan(user_id, plan_id, payload)
     return response_ok(_plan_to_dict(plan), "plan_updated")
@@ -79,7 +79,7 @@ def update_plan_route(plan_id: int):
 @plan_bp.delete("/plans/<int:plan_id>")
 @jwt_required()
 def delete_plan_route(plan_id: int):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     delete_plan(user_id, plan_id)
     return response_ok(message="plan_deleted")
 
@@ -87,7 +87,7 @@ def delete_plan_route(plan_id: int):
 @plan_bp.post("/plans/<int:plan_id>/tasks")
 @jwt_required()
 def create_task_route(plan_id: int):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     payload = request.get_json() or {}
     task = create_task(user_id, plan_id, payload)
     return response_ok(task.as_dict(), "task_created")
@@ -96,7 +96,7 @@ def create_task_route(plan_id: int):
 @plan_bp.put("/tasks/<int:task_id>")
 @jwt_required()
 def update_task_route(task_id: int):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     payload = request.get_json() or {}
     task = update_task(user_id, task_id, payload)
     return response_ok(task.as_dict(), "task_updated")
@@ -105,6 +105,6 @@ def update_task_route(task_id: int):
 @plan_bp.post("/tasks/<int:task_id>/complete")
 @jwt_required()
 def complete_task_route(task_id: int):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     task = complete_task(user_id, task_id)
     return response_ok(task.as_dict(), "task_completed")
