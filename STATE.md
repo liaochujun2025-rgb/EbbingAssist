@@ -10,9 +10,10 @@
 - T07 学习记录前端：记录表单、近 7 天时间线列表。
 - T08 后端测试：Auth/Knowledge/StudyLog 用 pytest 覆盖，全部通过。
 - T09 前端测试：新增知识/学习记录页面的 Vitest 用例（挂载、表单提交流程），测试通过。
+- T10 部署与 CI/CD：新增后端/前端 Dockerfile，docker-compose（backend+frontend+db），GitHub Actions CI（后端 pytest、前端 vitest）。
 
 ## In Progress / Next
-- T10 部署与 CI/CD。
+- 无（等待后续版本规划）。
 
 ## Issues / Notes
 - 本地未安装 pytest/依赖，未执行自动化测试；需在环境安装后运行 `python -m pytest backend/tests`。

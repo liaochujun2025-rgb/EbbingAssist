@@ -1,0 +1,13 @@
+.git
+.gitignore
+__pycache__/
+.pytest_cache/
+backend/.venv/
+backend/.wheels/
+node_modules/
+fronted/v3-admin-vite-main/node_modules/
+fronted/v3-admin-vite-main/dist/
+*.pyc
+*.pyo
+*.log
+tmp_task.md
