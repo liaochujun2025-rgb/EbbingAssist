@@ -1,8 +1,11 @@
 import logging
-
+import uuid
+from datetime import datetime
 from typing import Optional
 
-from flask import Flask
+from flask import Flask, g, request
+from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
+from flask_jwt_extended.exceptions import NoAuthorizationError
 
 from backend.common.errors import register_error_handlers
 from backend.config import get_config
@@ -21,6 +24,19 @@ def create_app(config_name: Optional[str] = None) -> Flask:
     init_extensions(app)
     register_blueprints(app)
     register_error_handlers(app)
+
+    @app.before_request
+    def _inject_request_context():
+        g.request_id = str(uuid.uuid4())
+        g.current_user_id = None
+        try:
+            verify_jwt_in_request()
+            g.current_user_id = get_jwt_identity()
+        except NoAuthorizationError:
+            g.current_user_id = None
+        except Exception:
+            g.current_user_id = None
+        g.request_started_at = datetime.utcnow()
 
     if app.config.get("TESTING"):
         _register_test_routes(app)

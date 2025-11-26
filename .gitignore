@@ -4,6 +4,8 @@ __pycache__/
 *.pyo
 .pytest_cache/
 backend/.venv/
+backend/.wheels/
+logs/
 
 # Node / Frontend
 node_modules/

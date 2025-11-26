@@ -11,6 +11,7 @@
 - T08 后端测试：Auth/Knowledge/StudyLog 用 pytest 覆盖，全部通过。
 - T09 前端测试：新增知识/学习记录页面的 Vitest 用例（挂载、表单提交流程），测试通过。
 - T10 部署与 CI/CD：新增后端/前端 Dockerfile，docker-compose（backend+frontend+db），GitHub Actions CI（后端 pytest、前端 vitest）。
+- 追加：后端 JSON 日志增强（trace_id/user_id/stack），输出 stdout + backend/logs/app.log，代理配置指向 8000。
 
 ## In Progress / Next
 - 无（等待后续版本规划）。
