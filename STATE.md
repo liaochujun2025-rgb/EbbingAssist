@@ -12,6 +12,7 @@
 - T09 前端测试：新增知识/学习记录页面的 Vitest 用例（挂载、表单提交流程），测试通过。
 - T10 部署与 CI/CD：新增后端/前端 Dockerfile，docker-compose（backend+frontend+db），GitHub Actions CI（后端 pytest、前端 vitest）。
 - 追加：后端 JSON 日志增强（trace_id/user_id/stack），输出 stdout + backend/logs/app.log，代理配置指向 8000。
+- 日志改造：统一 JSON 结构，request/错误日志包含 trace_id、method、path、status_code、user_id、错误栈，写入 stdout 与滚动文件；后端测试通过。
 
 ## In Progress / Next
 - 无（等待后续版本规划）。

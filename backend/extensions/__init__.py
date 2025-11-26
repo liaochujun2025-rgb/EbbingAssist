@@ -2,6 +2,7 @@ import logging
 import logging.config
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+from typing import Optional
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
@@ -9,14 +10,14 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from redis import Redis
-from typing import Optional
+
+from backend.common.logging import JSONFormatter
 
 jwt = JWTManager()
 db = SQLAlchemy()
 migrate = Migrate()
 redis_client: Optional[Redis] = None
 scheduler = BackgroundScheduler()
-jwt = JWTManager()
 
 
 def init_logging(app: Flask) -> None:
@@ -25,7 +26,7 @@ def init_logging(app: Flask) -> None:
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / "app.log"
 
-    formatter = logging.Formatter("%(message)s")
+    formatter = JSONFormatter()
     handlers: list[logging.Handler] = []
 
     stream_handler = logging.StreamHandler()

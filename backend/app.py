@@ -1,5 +1,6 @@
 import logging
 import uuid
+import json
 from datetime import datetime
 from typing import Optional
 
@@ -37,6 +38,25 @@ def create_app(config_name: Optional[str] = None) -> Flask:
         except Exception:
             g.current_user_id = None
         g.request_started_at = datetime.utcnow()
+
+    @app.after_request
+    def _log_request(response):
+        duration_ms = None
+        if hasattr(g, "request_started_at"):
+            duration_ms = (datetime.utcnow() - g.request_started_at).total_seconds() * 1000
+        payload = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "level": "INFO",
+            "logger": "request",
+            "trace_id": getattr(g, "request_id", None),
+            "path": request.path,
+            "method": request.method,
+            "status_code": response.status_code,
+            "user_id": getattr(g, "current_user_id", None),
+            "duration_ms": duration_ms,
+        }
+        app.logger.info(json.dumps(payload, ensure_ascii=False))
+        return response
 
     if app.config.get("TESTING"):
         _register_test_routes(app)
