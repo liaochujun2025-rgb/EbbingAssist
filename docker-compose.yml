@@ -12,6 +12,7 @@ services:
       LOG_LEVEL: INFO
     volumes:
       - backend-data:/data
+      - logs-data:/app/logs
     ports:
       - "8000:8000"
     depends_on:
@@ -37,6 +38,36 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.3
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  fluent-bit:
+    image: cr.fluentbit.io/fluent/fluent-bit:2.2.2
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - logs-data:/app/logs:ro
+    depends_on:
+      - elasticsearch
+
 volumes:
   backend-data:
   db-data:
+  es-data:
+  logs-data:
