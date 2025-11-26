@@ -92,7 +92,9 @@ function openEditEntry(row: KnowledgeEntry) {
 
 async function submitEntry() {
   if (!entryFormRef.value) return
-  await entryFormRef.value.validate()
+  if (typeof entryFormRef.value.validate === "function") {
+    await entryFormRef.value.validate()
+  }
   const payload = {
     title: entryForm.title,
     content: entryForm.content,
@@ -130,7 +132,9 @@ function openStudyDialog(entry: KnowledgeEntry) {
 async function submitStudyLog() {
   if (!studyForm.entry_id) return
   if (!studyFormRef.value) return
-  await studyFormRef.value.validate()
+  if (typeof studyFormRef.value.validate === "function") {
+    await studyFormRef.value.validate()
+  }
   await createStudyLogApi({
     entry_id: studyForm.entry_id,
     note: studyForm.note || "",

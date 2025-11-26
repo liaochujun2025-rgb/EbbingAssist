@@ -8,10 +8,10 @@
 - T05 知识条目前端：列表/搜索/筛选，创建/编辑/删除表单，标签/主题选择与创建。
 - T06 学习记录后端 API：关联知识条目记录学习，近 7 天查询。
 - T07 学习记录前端：记录表单、近 7 天时间线列表。
+- T08 后端测试：Auth/Knowledge/StudyLog 用 pytest 覆盖，全部通过。
+- T09 前端测试：新增知识/学习记录页面的 Vitest 用例（挂载、表单提交流程），测试通过。
 
 ## In Progress / Next
-- T08 后端测试：Auth/Knowledge/StudyLog。
-- T09 前端测试：知识/学习记录表单与列表。
 - T10 部署与 CI/CD。
 
 ## Issues / Notes
